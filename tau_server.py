@@ -1,7 +1,7 @@
 import socket
 
-HOST = "chupacabra"
-PORT = 6283
+HOST
+PORT
 
 s = socket.socket(socket.AF_INET.SOCK_STREAM)
 s.bind((HOST,PORT))
