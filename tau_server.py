@@ -1,7 +1,7 @@
 import socket
 
-HOST
-PORT
+HOST = "johnv.ddns.net"
+PORT = 6283
 
 s = socket.socket(socket.AF_INET.SOCK_STREAM)
 s.bind((HOST,PORT))
