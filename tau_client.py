@@ -1,12 +1,82 @@
 # This will be the client portion of the TauNet messaging system
-import tau_server
+import json
+import socket
 
-host = input("To:")
-msg = input("Enter the message: ")
+host = '127.0.0.1'
+port = 6283
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
+print("Connected to " + (host) + "on Port: " + str(port))
+initialMessage = input("Send: ")
+s.sendall(initialMessage.encode())
+
+while True:
+    data = s.recv(1024).decode()
+    print("Received: " + (data))
+    response = input("Reply: ")
+    if response == "exit":
+        break
+    s.sendall(response.encode())
+s.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#MSGLEN = 300
+
+
+
+#hosts = chupa-cabra.ddns.net
+#total_sent = 0
+#while totalsent < MSGLEN:
+#    sent = sock.sent(msg[total_sent])
+#    if sent == 0:
+#        raise RunTimeError("Socket Connection Broken")
+#    total_sent = total_sent + sent
+
+
+
+
+#msg = input("Enter the message: ")
+
+
 
 # get dna resoltion
 # client (receive message)
-def main():
+
 
 
 # possible send from a different high number port

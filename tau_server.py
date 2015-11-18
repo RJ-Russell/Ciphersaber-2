@@ -1,30 +1,24 @@
 import socket
-import json
 
-class server:
-#	connections = json.load(open(tau_table.json))
-#	send_to = None
-#	received_from = None
+host = '127.0.0.1'
+port = 6283
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((host,port))
+s.listen(1)
 
-	port = 6283
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.bind(('0.0.0.0',port))
-	sock.listen(1)
+conn, addr = s.accept()
+print("CONNECTION FROM:",addr)
 
-	print("Listening on port:",port)
-
-	while(1):
-		conn, sock_addr = sock.accept()
-		print("Accepted connection from: ", sock_addr)
-		while 1:
-			command = input('shell> ')
-			conn.send(command)
-			data = conn.recv(6283)
-			if not data:
-				break;
-			print(data)
-
+while True:
+    data = conn.recv(1024).decode()
+    if not data: break
+    print("Received: " + (data))
+    response = input("Reply: ")
+    if response == "exit":
+        break
+    conn.sendall(response.encode())
+conn.close()
 #	socket.gethostbyname(sent_to) # dns ip resolution
 	
 #	s = socket.socket(socket.AF_INET.SOCK_STREAM)
