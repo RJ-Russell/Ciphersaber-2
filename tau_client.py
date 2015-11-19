@@ -2,23 +2,27 @@
 import json
 import socket
 
-host = '127.0.0.1'
-port = 6283
+HOST = '127.0.0.1'
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((host,port))
-print("Connected to " + (host) + "on Port: " + str(port))
-initialMessage = input("Send: ")
-s.sendall(initialMessage.encode())
+RPORT = 6283
+SPORT = 6284
+
+BUFFER_SIZE = 1024
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((HOST,PORT))
+print("Connected to " + (HOST) + "on Port: " + str(PORT))
+connected_message = input("Send: ")
+sock.sendall(connected_message.encode())
 
 while True:
-    data = s.recv(1024).decode()
+    data = sock.recv(BUFFER_SIZE).decode()
     print("Received: " + (data))
     response = input("Reply: ")
     if response == "exit":
         break
-    s.sendall(response.encode())
-s.close()
+    sock.sendall(response.encode())
+sock.close()
 
 
 
