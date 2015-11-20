@@ -4,7 +4,7 @@ import socket
 
 HOST = '127.0.0.1'
 
-RPORT = 6283
+PORT = 6283
 SPORT = 6284
 
 BUFFER_SIZE = 1024
