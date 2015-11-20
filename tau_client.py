@@ -2,10 +2,10 @@
 import json
 import socket
 
-HOST = '127.0.0.1'
-
+HOST = 'chupa-cabra.ddns.net'
 PORT = 6283
-SPORT = 6284
+
+#SPORT = 6284
 
 BUFFER_SIZE = 1024
 

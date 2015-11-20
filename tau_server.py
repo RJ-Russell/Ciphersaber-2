@@ -1,7 +1,7 @@
 import socket
 
 
-HOST = '71.239.196.3'
+HOST = 'localhost'
 PORT = 6283
 BUFFER_SIZE = 1024
 
