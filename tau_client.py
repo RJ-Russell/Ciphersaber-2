@@ -2,7 +2,7 @@
 import json
 import socket
 
-HOST = 'chupa-cabra.ddns.net'
+HOST = 'localhost'
 PORT = 6283
 
 #SPORT = 6284
