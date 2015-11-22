@@ -2,7 +2,7 @@
 # RC4.py
 # code excerpts taken from www.github.com/keiyakins
 # the "Kitty of Men" helped with all of my code skillz
-
+from base64 import b64encode
 import os
 from random import randint
 import sys
@@ -36,19 +36,12 @@ def key_scheduling(key, rounds=200):
 			j = (j + state[i] + ord(key[i % length_key])) % 256   
 		# Swap the ith and jth elements of the state array. 
 			key_scheduler = swap(state,i,j)
-
+	print("KEYSCHED: ", key_scheduler)
 	return key_scheduler
 
 # Generate Stream
-def generate_stream(state,message, key):
-	#print("\n\nINSIDE GEN_STREAM: ", state, "\n\n")
-#After the entire mixing loop is completed, i and j are set to zero.
-# The variable i is incremented by one
-# The contents of the ith element of S is then added to j
-# The ith and jth elements of S are swapped and their contents are added together to form a new 
-# value n.
-# The nth element of S is then combined with the message byte, using a bit by bit exclusive-or 
-# operation, to form the output byte. 
+def generate_stream(state, key):
+	
 	length_key = len(key)
 	key_stream = list(range(length_key))
 	print("KEY STREAM (BEFORE): ", key_stream)
@@ -56,42 +49,57 @@ def generate_stream(state,message, key):
 	for i in range(length_key-1):
 		i = (i + 1) % 256
 		j = (j + state[i]) % 256 
-		#print("state[i]: ",state[i], "i: ", i, "j: ", j)
 		state[i], state[j] = state[j], state[i]
 		key_stream[i] =  state[(state[i] + state[j]) % 256]
-		print("KEYSTREAM (AFTER): ", key_stream)
+	print("KEYSTREAM (AFTER): ", key_stream)
 	return key_stream
 
 
 def encrypt(message, key):
-	iv = ''
 	iv = os.urandom(10)
-	for byte in iv:
-		ivbyte = chr(byte)
-		key += ivbyte
+	print("IV: ", iv)
+	key += b64encode(iv).decode("ASCII")
+	print("KEY + IV: ", key)
 
-	
 	key_scheduler = key_scheduling(key)
-	key_stream = generate_stream(key_scheduler,message,key)
-	ciphered_message = iv + key_stream
+	key_stream = generate_stream(key_scheduler,key)
 	
-	return ciphered_message
+	cipher = list(range(len(message) + 10))
+	cipher_txt = b""
+	for i in range(10):
+		cipher[i] += iv[i]
+	for j in range(len(message)):
+		cipher[i] += ord(message[i]) ^ key_stream[i]
+	
+	for index in cipher:
+		cipher_txt += chr(index).encode()
+	
+	return cipher_txt
 
 
 
 def decrypt(message, key):
-#	message_length = len(message)
+	message_length = len(message)
 	iv = message[0:10]
-	for byte in iv:
-		ivbyte = chr(byte)
-		key += ivbyte
-	#key += iv
-	message = message[10:]
-	print("MESSAGE: ", message)
-	key_scheduler = key_scheduling(key)
-	deciphered_message = generate_stream(key_scheduler,message,key)
+	print("IV LEN: ", len(iv))
+	key += b64encode(iv).decode("ASCII")
+	print("KEY + IV: ", key)
 	
-	return deciphered_message
+	message = message[10:]
+	key_scheduler = key_scheduling(key)
+	key_stream = generate_stream(key_scheduler,key)
+	plain = list(range(message_length-10))
+	print("PLAIN: ",plain)
+	print("MESSAGE: ", message)
+	print("KEY STREAM: ", key_stream)
+	plain_txt = ""
+	for i in range(len(message)):
+		plain[i] = message[i] ^ key_stream[i]
+	
+	for index in plain:
+		plain_txt += str(plain)
+
+	return plain_txt
 
 
 
@@ -103,12 +111,14 @@ if __name__ == "__main__":
 	#print("DECRYPTED MESSAGE: ", d)
 	
 	
-	#iv = os.urandom(10)
-	#for byte in iv:
-	#	cat = chr(byte)
-	#	key += cat
-	#key += iv
+	iv = os.urandom(10)
+	key += b64encode(iv).decode("ASCII")
+	print("KEY + IV: ", key)
 
+	keys = key_scheduling(key)
+	print("KEYS: ", keys)
+	stream = generate_stream(keys,key)
+	print("STREAM: ", stream)
 	#c = key_scheduling(key)
 	#print("C: ", c, '\n')
 	#d = key_scheduling(key)
@@ -121,17 +131,9 @@ if __name__ == "__main__":
 	#z = generate_stream(c,message,key)
 	#print("Z: ",z,'\n')
 
-	enc_mess = encrypt(message, key)
-	print("ENCRYPTED MESSAGE: ", enc_mess)
+	#enc_mess = encrypt(message, key)
+	#print("ENCRYPTED MESSAGE: ", enc_mess)
 
-#	dec_mess = decrypt(enc_mess, key)
-#	print("DECRYPTED MESSAGE: ", dec_mess)
-#	#swapped_state = swap(state,i,j)
-#	#print("SWAPPED STATE: ", swapped_state)
-#	n = state[(state[i] + state[j]) % 256]
-#	print("N: ", n)
-#	#n = (swapped_state[i] + j)
-#	message_byte = bytes(ord(message[i]) ^ n)
-#	#print("MESSAGE BYTE: ", message_byte)
-#	key_stream += message_byte
-#	j += 1
+	#dec_message = decrypt(enc_mess, key)
+	#print("DECRYPTED MESSAGE: ", dec_message)
+
