@@ -2,7 +2,7 @@
 import json
 import socket
 
-HOST = 'localhost'
+HOST = ''
 PORT = 6283
 
 #SPORT = 6284
