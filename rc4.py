@@ -28,96 +28,87 @@ def key_scheduling(key, rounds=200):
 	len_key = len(key)
 	
 	j = 0
-	print("KEY: ", key)
 	for num_round in range(rounds):
 		for i in range(len(state)):
-			#t_byte = key[i % len_key:(i % len_key)+1]
-			#key_list[i] = ord(t_byte)
-			#j = (j + state[i] + key_list[i]) % 256
-			j = (j + state[i] + ord(key[i % len_key:(i % len_key)+1])) % 256   
+			j = (j + state[i] + ord(key[i % len_key:(i % len_key)+1])) % 256
+			
 			key_scheduler = swap(state,i,j)
-	print("KEYSCHED: ", key_scheduler)
 	return key_scheduler
 
 # Generate Stream
 def rc4(message, key):
 	
-	length_key = len(key)
+	len_key = len(key)
 	
-	state = key_schedule(message,key)
-	len_state = len(state)
-	key_stream = list(range(length_key))
-	print("KEY STREAM (BEFORE): ", key_stream)
-	cipher_txt `= b""
+	len_message = len(message)
+
+	key_list = list(range(256))
+	len_key_list = len(key_list)
+	key_list = key_scheduling(key)
+	
+	alt_message = b""
 	i = 0
 	j = 0
-	for byte in range(length_key):
+	for byte in range(len_message):
 		i = (i + 1) % 256
-		j = (j + state[i]) % 256 
-		key_stream = swap(state, i, j)
-		key_stream[byte] =  state[(state[i] + state[j]) % 256]
-	print("KEYSTREAM (AFTER): ", key_stream)
-	
-	
+		j = (j + key_list[i]) % 256 
+		key_list = swap(key_list, i, j)
+		xor_bytes = key_list[(key_list[i] + key_list[j]) % len_key_list]
+		cipher_byte = ord(message[byte:byte+1]) ^ key_list[byte]
+		cipher_byte = bytes([cipher_byte])
+		alt_message += cipher_byte 
 	
 	return alt_message
 
+
 def encrypt(message, key):
-	iv = urandom(10)
-	print("IV: ", iv)
-	key = str.encode('key')
-	print("KEY + IV: ", key)
-
-
 	
+	key = str.encode(key)
+	iv = urandom(10)
+	key += iv
+	
+	cipher_txt = iv + rc4(message,key) 
 	return cipher_txt
 
 
-
 def decrypt(message, key):
-	message_length = len(message)
+	
+	key = str.encode(key)
 	iv = message[0:10]
-	print("IV LEN: ", len(iv))
-	key = str.encode('key')
 	key += iv
-	print("KEY + IV: ", key)
 	
 	message = message[10:]
-	key_scheduler = key_scheduling(key)
-	key_stream = generate_stream(key_scheduler,key)
-	plain = list(range(message_length-10))
-	print("PLAIN: ",plain)
-	print("MESSAGE: ", message)
-	print("KEY STREAM: ", key_stream)
-	plain_txt = ""
-	for i in range(len(message)):
-		plain[i] = message[i] ^ key_stream[i]
 	
-	for index in plain:
-		plain_txt += str(plain)
-
+	plain_txt = rc4(message,key)
+	
 	return plain_txt
 
 
 
 if __name__ == "__main__":
-	message = "this is a message"
+	message = "FUcking fuck fuck fuck this is a stupid fucking program and I hate it very very very very much."
 	key = "password"
 
+	m = encrypt(message, key)
+	print("'\n'CM: ", m)
+
+	d = decrypt(m, key)
+	print("'\n'DM: ", d)
+
+	d = d.decode("ASCII")
+	print("'\n'D: ", d)
+	
 	#d = decrypt(enc,key)
 	#print("DECRYPTED MESSAGE: ", d)
 	
 	
-	iv = urandom(10)
-	key = str.encode('key')
-	key += iv
-	print("KEY + IV: ", key)
+	#iv = urandom(10)
+	#key = str.encode('key')
+	#key += iv
+	#print("KEY + IV: ", key)
 
-	keys = key_scheduling(key)
-	print("KEYS: ", keys)
-	stream = generate_stream(keys,key)
-	print("STREAM: ", stream)
-	
+	#m = rc4(message, key)
+	#print("M: ", m)
 	#c = key_scheduling(key)
 	#print("C: ", c, '\n')
 	#d = key_scheduling(key)
