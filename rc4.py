@@ -1,25 +1,14 @@
-# RJ Russell CS300 
+# Copyright (C) 2015 RJ Russell
+# Created with in collaboration:
+# Rachel Johnson:
+# Andrew Wood:
+#
 # RC4.py
-# code excerpts taken from www.github.com/keiyakins
-# the "Kitty of Men" helped with all of my code skillz
+
 from os import urandom
-import sys
-
-
-def swap(state, i, j):
-	"""
-		Takes in list and two integers, swaps state[i] with state[j]
-		and returns the list.
-	"""
-	temp = state[i]
-	state[i] = state[j]
-	state[j] = temp
-
-	return state
-
 
 # Key scheduling
-def key_scheduling(key, rounds=200):
+def key_scheduling(key, rounds=20):
 
 	state = list(range(256))
 	key_list = list(range(256))
@@ -29,11 +18,12 @@ def key_scheduling(key, rounds=200):
 	
 	j = 0
 	for num_round in range(rounds):
-		for i in range(len(state)):
+		for i in range(len_state):
 			j = (j + state[i] + ord(key[i % len_key:(i % len_key)+1])) % 256
-			
 			key_scheduler = swap(state,i,j)
+	
 	return key_scheduler
+
 
 # Generate Stream
 def rc4(message, key):
@@ -61,6 +51,19 @@ def rc4(message, key):
 	return alt_message
 
 
+def swap(state, i, j):
+	"""
+		Takes in list and two integers, swaps state[i] with state[j]
+		and returns the list.
+	"""
+	temp = state[i]
+	state[i] = state[j]
+	state[j] = temp
+
+	return state
+
+
+
 def encrypt(message, key):
 	
 	key = str.encode(key)
@@ -69,6 +72,7 @@ def encrypt(message, key):
 	
 	cipher_txt = iv + rc4(message,key) 
 	return cipher_txt
+
 
 
 def decrypt(message, key):
@@ -86,6 +90,7 @@ def decrypt(message, key):
 
 
 if __name__ == "__main__":
+	
 	message = "FUcking fuck fuck fuck this is a stupid fucking program and I hate it very very very very much."
 	key = "password"
 
@@ -98,8 +103,8 @@ if __name__ == "__main__":
 	d = d.decode("ASCII")
 	print("'\n'D: ", d)
 	
+	#print("--- %s seconds ---" % (time.time() - start_time))
 	#d = decrypt(enc,key)
-	#print("DECRYPTED MESSAGE: ", d)
 	
 	
 	#iv = urandom(10)
