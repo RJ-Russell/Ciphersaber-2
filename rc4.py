@@ -2,13 +2,15 @@
 # RC4.py
 # code excerpts taken from www.github.com/keiyakins
 # the "Kitty of Men" helped with all of my code skillz
-from base64 import b64encode
-import os
-from random import randint
+from os import urandom
 import sys
 
 
 def swap(state, i, j):
+	"""
+		Takes in list and two integers, swaps state[i] with state[j]
+		and returns the list.
+	"""
 	temp = state[i]
 	state[i] = state[j]
 	state[j] = temp
@@ -16,27 +18,22 @@ def swap(state, i, j):
 	return state
 
 
-# RC4 uses two arrays of eight bit bytes. The "state" array is 256 bytes long and holds a
-# permutation of the numbers 0 through 255. The "key" array can be of any length up to 256 bytes.
-# RC4 also uses two index variables i and j that start off as zero. All variables are eight bits
-# long and all addition is performed modulo 256.
-
-# The state array is then subjected to 256 mixing operations using a loop that steps i through the
-# values from zero to 255. Each mixing operation consists of two steps:
-
 # Key scheduling
 def key_scheduling(key, rounds=200):
-# Add to the variable j the contents of the ith element of the state array and the nth element of
-# the key, where n is equal to i modulo the length of the key.
+
 	state = list(range(256))
-	length_key = len(key)
+	key_list = list(range(256))
+	
+	len_state = len(state)
+	len_key = len(key)
+	
 	j = 0
-	for num_times in range(rounds):
-		for i in range(256):
-			j = (j + state[i] + ord(key[i % length_key])) % 256   
-		# Swap the ith and jth elements of the state array. 
+	for num_round in range(rounds):
+		for i in range(len(state)):
+			t_byte = key[i % len_key:(i % len_key)+1]
+			key_list[i] = ord(t_byte)
+			j = (j + state[i] + key_list[i]) % 256
 			key_scheduler = swap(state,i,j)
-	print("KEYSCHED: ", key_scheduler)
 	return key_scheduler
 
 # Generate Stream
@@ -44,21 +41,22 @@ def generate_stream(state, key):
 	
 	length_key = len(key)
 	key_stream = list(range(length_key))
+	alt_message = b""
 	print("KEY STREAM (BEFORE): ", key_stream)
+	i = 0
 	j = 0
-	for i in range(length_key-1):
+	for byte in range(length_key):
 		i = (i + 1) % 256
 		j = (j + state[i]) % 256 
-		state[i], state[j] = state[j], state[i]
-		key_stream[i] =  state[(state[i] + state[j]) % 256]
+		key_stream = swap(state, i, j)
+		key_stream[byte] =  state[(state[i] + state[j]) % 256]
 	print("KEYSTREAM (AFTER): ", key_stream)
 	return key_stream
 
-
 def encrypt(message, key):
-	iv = os.urandom(10)
+	iv = urandom(10)
 	print("IV: ", iv)
-	key += b64encode(iv).decode("ASCII")
+	key = str.encode(key)
 	print("KEY + IV: ", key)
 
 	key_scheduler = key_scheduling(key)
@@ -82,7 +80,8 @@ def decrypt(message, key):
 	message_length = len(message)
 	iv = message[0:10]
 	print("IV LEN: ", len(iv))
-	key += b64encode(iv).decode("ASCII")
+	key = str.encode('key')
+	key += iv
 	print("KEY + IV: ", key)
 	
 	message = message[10:]
@@ -111,8 +110,9 @@ if __name__ == "__main__":
 	#print("DECRYPTED MESSAGE: ", d)
 	
 	
-	iv = os.urandom(10)
-	key += b64encode(iv).decode("ASCII")
+	iv = urandom(10)
+	key = str.encode('key')
+	key += iv
 	print("KEY + IV: ", key)
 
 	keys = key_scheduling(key)
