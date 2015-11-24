@@ -1,17 +1,19 @@
 # Copyright (C) 2015 RJ Russell
 # Created with in collaboration:
+# Jacob Martin:
 # Rachel Johnson:
 # Andrew Wood:
 #
+#
 # RC4.py
 
-from os import urandom
+import random, sys, string
+
 
 # Key scheduling
-def key_scheduling(key, rounds=20):
-
-	state = list(range(256))
-	key_list = list(range(256))
+def rc4(input, key, rounds=10):
+	state = range(256)
+	#key_list = list(range(256))
 	
 	len_state = len(state)
 	len_key = len(key)
@@ -19,89 +21,73 @@ def key_scheduling(key, rounds=20):
 	j = 0
 	for num_round in range(rounds):
 		for i in range(len_state):
-			j = (j + state[i] + ord(key[i % len_key:(i % len_key)+1])) % 256
-			key_scheduler = swap(state,i,j)
+			j = (j + state[i] + key[i % len_key]) % 256
+			state[i],state[j] = state[j], state[i]
 	
-	return key_scheduler
-
-
-# Generate Stream
-def rc4(message, key):
-	
-	len_key = len(key)
-	
-	len_message = len(message)
-
-	key_list = list(range(256))
-	len_key_list = len(key_list)
-	key_list = key_scheduling(key)
-	
-	alt_message = b""
+	alt_message = []
 	i = 0
 	j = 0
-	for byte in range(len_message):
+	for byte in input:
 		i = (i + 1) % 256
-		j = (j + key_list[i]) % 256 
-		key_list = swap(key_list, i, j)
-		xor_bytes = key_list[(key_list[i] + key_list[j]) % len_key_list]
-		cipher_byte = ord(message[byte:byte+1]) ^ key_list[byte]
-		cipher_byte = bytes([cipher_byte])
-		alt_message += cipher_byte 
-	
+		j = (j + state[i]) % 256 
+		state[i], state[j] = state[j], state[i]
+		xor_bytes = (state[i] + state[j]) % 256
+		alt_message.append(byte ^ state[xor_bytes])
+
 	return alt_message
 
 
-def swap(state, i, j):
-	"""
-		Takes in list and two integers, swaps state[i] with state[j]
-		and returns the list.
-	"""
-	temp = state[i]
-	state[i] = state[j]
-	state[j] = temp
-
-	return state
-
-
-
-def encrypt(message, key):
+def encrypt(plain_message, key, iv=""):
 	
-	key = str.encode(key)
-	iv = urandom(10)
-	key += iv
+	while len(iv) < 10:
+		iv = iv + chr(random.randint(0,255))
+	bytes = rc4(map(ord, plain_message), map(ord, key+iv))
+	return iv + string.join(map(chr, bytes), "")
 	
-	cipher_txt = iv + rc4(message,key) 
-	return cipher_txt
 
-
-
-def decrypt(message, key):
+def decrypt(cipher_mess, key):
 	
-	key = str.encode(key)
-	iv = message[0:10]
-	key += iv
+	iv = cipher_mess[0:10]
+	cipher_mess = cipher_mess[10:]
+	bytes = rc4(map(ord, cipher_mess), map(ord, key+iv))
+	return string.join(map(chr, bytes), "")
 	
-	message = message[10:]
-	
-	plain_txt = rc4(message,key)
-	
-	return plain_txt
-
-
 
 if __name__ == "__main__":
 	
-	message = "FUcking fuck fuck fuck this is a stupid fucking program and I hate it very very very very much."
-	key = "password"
+	#message = "FUcking fuck fuck fuck this is a stupid fucking program and I hate it very very very very much."
+	key = "asdfg"
+	
+	infile = open("cstest.cs2", "r")
+	e = infile.read()
+	
+	d = decrypt(e, key)
+	print("D: ", d)
+	
 
-	m = encrypt(message, key)
-	print("'\n'CM: ", m)
 
-	d = decrypt(m, key)
-	print("'\n'DM: ", d)
 
-	d = d.decode("ASCII")
-	print("'\n'D: ", d)
+
+	
+	#filename = sys.argv[1]
+	#a_file = open(filename, "r")
+	#encrypted = a_file.readline().rstrip()
+	#decrypted = decrypt(encrypted,key)
+	
+	
+
+
+	#f = d.decode("ASCII")
+	#print("F: ", f)
+
+
+		
+	
+	#m = encrypt(message, key)
+	#print("'\n'CM: ", m)
+
+	#d = d.decode("ASCII")
+	#print("'\n'D: ", d)
 	
 	#print("--- %s seconds ---" % (time.time() - start_time))
 	#d = decrypt(enc,key)

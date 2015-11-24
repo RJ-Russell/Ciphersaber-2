@@ -1,6 +1,12 @@
 # This will be the client portion of the TauNet messaging system
 import json
 import socket
+import threading 
+
+# get address to send to
+# enter message and encrypt it
+# append header information
+# send message to recipient 
 
 HOST = ''
 PORT = 6283
