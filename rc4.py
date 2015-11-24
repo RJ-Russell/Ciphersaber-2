@@ -11,7 +11,7 @@ import random, sys, string
 
 
 # Key scheduling
-def rc4(input, key, rounds=10):
+def rc4(input, key, rounds=20):
 	state = range(256)
 	#key_list = list(range(256))
 	
@@ -38,9 +38,10 @@ def rc4(input, key, rounds=10):
 
 
 def encrypt(plain_message, key, iv=""):
-	
+	iv_rand = random.SystemRandom()
+
 	while len(iv) < 10:
-		iv = iv + chr(random.randint(0,255))
+		iv = iv + chr(int(iv_rand.random()))
 	bytes = rc4(map(ord, plain_message), map(ord, key+iv))
 	return iv + string.join(map(chr, bytes), "")
 	
@@ -56,14 +57,41 @@ def decrypt(cipher_mess, key):
 if __name__ == "__main__":
 	
 	#message = "FUcking fuck fuck fuck this is a stupid fucking program and I hate it very very very very much."
-	key = "asdfg"
 	
-	infile = open("cstest.cs2", "r")
-	e = infile.read()
+	#key = "asdfg"
+	#infile = open("cstest.cs2", "r")
+	#e = infile.read()
+	#d = decrypt(e, key)
+	#print "D: ", d, "\n"
 	
-	d = decrypt(e, key)
-	print("D: ", d)
+	#key1 = "asdfg"
+	#jfile = open("cstest1.cs1", "r")
+	#f = jfile.read()
+	#g = decrypt(f, key1)
+	#print "D: ", g
+
+	key2 = "SecretMessageforCongress"
+	#ifile = open("cstest2.cs1", "r")
+	#i = ifile.read()
+	#j = decrypt(i, key2)
+	#print "D: ", j
 	
+	
+	#e = encrypt(message, key)
+	#print "E: ", e
+	
+	f = open("test.cs1", "w")
+	message = raw_input("Enter your message: ")
+	z = encrypt(message, key2)
+	f.write(z)
+	f.close()
+
+	l = open("test.cs1", "r")
+	message = l.read()
+	m = decrypt(message, key2)
+	print "Message: ", m, "\n"
+	l.close()
+
 
 
 
