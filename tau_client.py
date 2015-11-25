@@ -23,13 +23,13 @@ class Client:
 		while True:
 			sock_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			sock_client.connect((self.host,self.port))
-			print("Connected to " + (self.host) + "on Port: " + str(self.port))
-			outgoing_message = input("Send: ")
+			print("Connected to " + (self.host) + " on Port: " + str(self.port))
+			outgoing_message = raw_input("Send: ")
 			sock_client.sendall(outgoing_message.encode())
 
 			if outgoing_message == "exit":
 				break
-			sock_client.sendall(outgoing_message.encode())
+			#sock_client.sendall(outgoing_message.encode())
 		sock_client.close()
 
 if __name__ == "__main__":

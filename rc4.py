@@ -11,7 +11,7 @@ import random, sys, string
 
 
 # Key scheduling
-def rc4(input, key, rounds=1):
+def rc4(input, key, rounds=20):
 	
 	state = range(256)
 	
@@ -69,28 +69,28 @@ if __name__ == "__main__":
 	#print "D: ", g
 
 	key2 = "SecretMessageforCongress"
-	ifile = open("testfiles/cstest2.cs1", "r")
-	i = ifile.read()
-	print "BEFORE DECRYPT: ", i
+	#ifile = open("testfiles/cstest2.cs1", "r")
+	#i = ifile.read()
+	#print "BEFORE DECRYPT: ", i
 
-	j = decrypt(i, key2)
-	print "AFTER DECRYPT: ", j
+	#j = decrypt(i, key2)
+	#print "AFTER DECRYPT: ", j
 	
 	
 	#e = encrypt(message, key)
 	#print "E: ", e
 	
-	#f = open("test.cs1", "w")
-	#message = raw_input("Enter your message: ")
-	#z = encrypt(message, key2)
-	#f.write(z)
-	#f.close()
+	f = open("testfiles/test.cs1", "w")
+	message = raw_input("Enter your message: ")
+	z = encrypt(message, key2)
+	f.write(z)
+	f.close()
 
-	#l = open("test.cs1", "r")
-	#message = l.read()
-	#m = decrypt(message, key2)
-	#print "Message: ", m, "\n"
-	#l.close()
+	l = open("testfiles/test.cs1", "r")
+	message = l.read()
+	m = decrypt(message, key2)
+	print "Message: ", m, "\n"
+	l.close()
 
 	
 	#filename = sys.argv[1]

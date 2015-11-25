@@ -19,10 +19,9 @@ class Server:
 		print("CONNECTION FROM:",addr)
 
 		while True:
-			data = conn.recv(self.buffer_size).decode()
+			data = conn.recv(self.buffer_size) #.decode()
 			if not data: break
 			print("Received: " + (data))
-		
 		conn.close()
 		return
 		
@@ -31,7 +30,3 @@ class Server:
 if __name__ == "__main__":
 	a_server = Server()
 	a_server.start_server()
-	
-
-
-
