@@ -8,6 +8,10 @@ import threading
 # append header information
 # send message to recipient 
 
+class Client:
+	host = None
+	
+
 HOST = ''
 PORT = 6283
 

@@ -1,23 +1,33 @@
 import socket
 
+class Server:
+	host = None
+	port = None
+	buffer_size = None
 
-HOST = 'localhost'
-PORT = 6283
-BUFFER_SIZE = 1024
+	def __init__(self, ):
+		
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST,PORT))
-s.listen(1)
+	def start_server():
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.bind((HOST,PORT))
+		s.listen(1)
 
-conn, addr = s.accept()
-print("CONNECTION FROM:",addr)
+		conn, addr = s.accept()
+		print("CONNECTION FROM:",addr)
 
-while True:
-    data = conn.recv(BUFFER_SIZE).decode()
-    if not data: break
-    print("Received: " + (data))
-    response = input("Reply: ")
-    if response == "exit":
-        break
-    conn.sendall(response.encode())
-conn.close()
+		while True:
+			data = conn.recv(BUFFER_SIZE).decode()
+			if not data: break
+			print("Received: " + (data))
+			response = input("Reply: ")
+			if response == "exit":
+				break
+			conn.sendall(response.encode())
+		conn.close()
+
+
+if __name__ == "__main__":
+	a_server = Server()
+
+
