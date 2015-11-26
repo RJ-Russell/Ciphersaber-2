@@ -8,6 +8,8 @@ import threading
 # append header information
 # send message to recipient 
 
+import rc4
+
 class Client:
 	host = None
 	port = None
@@ -20,16 +22,17 @@ class Client:
 
 
 	def start_client(self):
+		sock_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		sock_client.connect((self.host,self.port))
+		print("Connected to " + (self.host) + " on Port: " + str(self.port))
 		while True:
-			sock_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			sock_client.connect((self.host,self.port))
-			print("Connected to " + (self.host) + " on Port: " + str(self.port))
 			outgoing_message = raw_input("Send: ")
 			sock_client.sendall(outgoing_message.encode())
 
 			if outgoing_message == "exit":
+				outgoing_message = "Client Exited Chat..."
+				sock_client.sendall(outgoing_message.encode())
 				break
-			#sock_client.sendall(outgoing_message.encode())
 		sock_client.close()
 
 if __name__ == "__main__":

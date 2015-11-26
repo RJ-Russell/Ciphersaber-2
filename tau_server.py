@@ -20,8 +20,11 @@ class Server:
 
 		while True:
 			data = conn.recv(self.buffer_size) #.decode()
-			if not data: break
-			print("Received: " + (data))
+			#if not data: break
+			if data:
+                            print("Received: " + (data))
+			    data = conn.recv(self.buffer_size)
+                        data = conn.recv(self.buffer_size)
 		conn.close()
 		return
 		
