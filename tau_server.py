@@ -6,7 +6,7 @@ class Server:
 	buffer_size = None
 
 	def __init__(self):
-		self.host = 'localhost'
+		self.host = ''
 		self.port = 6283
 		self.buffer_size = 1024
 	
