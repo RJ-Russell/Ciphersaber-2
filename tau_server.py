@@ -30,9 +30,10 @@ class TauServer:
             message = client.recv(BUFFERSIZE)
             if message:
                 dec_mess = rc4.decrypt(message, key='asdfg')
+                print "Received from ",HOST,": ", dec_mess
                 client.send(dec_mess)
 
-            client.close()
+        #client.close()
 
 if __name__ == '__main__':
     server = TauServer()
