@@ -1,40 +1,57 @@
-# This will be the client portion of the TauNet messaging system
-import json
+"""
+
+Copyright (C) 2015 RJ Russell
+Created with the collaborative assistance of::
+Jacob Martin:
+Rachael Johnson:
+Andrew Wood:
+
+References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
+            Python Docs:........................https://www.python.org/
+"""
+#
+# tau_client.py
+
 import socket
-import threading 
-
-# get address to send to
-# enter message and encrypt it
-# append header information
-# send message to recipient 
-
 import rc4
 
-class Client:
-	host = None
-	port = None
-	buffer_size = None
-	
-	def __init__(self, host='localhost', port=6283, buffer_size=1024):
-		self.host = host
-		self.port = port
-		self.buffer_size = buffer_size
+PORT = 6283
+BUFFERSIZE = 1024
 
 
-	def start_client(self):
-		sock_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		sock_client.connect((self.host,self.port))
-		print("Connected to " + (self.host) + " on Port: " + str(self.port))
-		while True:
-			outgoing_message = raw_input("Send: ")
-			sock_client.sendall(outgoing_message.encode())
+class TauClient:
+    def __init__(self, host, key='asdfg'):
+        self.host = host
+        self.key = key
 
-			if outgoing_message == "exit":
-				outgoing_message = "Client Exited Chat..."
-				sock_client.sendall(outgoing_message.encode())
-				break
-		sock_client.close()
+    def connect_client(self):
+        while True:
+            print "Creating socket..."
+            client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print "Connecting to host and port..."
+            client_sock.connect((self.host, PORT))
+            print "Connected..."
+            print "Sending message..."
+            self.send_message(client_sock)
 
-if __name__ == "__main__":
-	a_client = Client()
-	a_client.start_client()
+    def send_message(self, client_sock):
+
+        message = raw_input("Enter Message: ")
+        if message == "exit":
+            self.close_client(client_sock)
+
+        encrypt_mess = rc4.encrypt(message, self.key)
+        client_sock.send(encrypt_mess)
+
+        print "Received: ", encrypt_mess
+
+    def close_client(self, client_sock):
+        client_sock.close()
+
+
+if __name__ == '__main__':
+    client = TauClient('localhost')
+    client.connect_client()
+
+
+
