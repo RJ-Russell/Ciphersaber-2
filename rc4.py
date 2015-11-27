@@ -5,7 +5,7 @@
 # Andrew Wood:
 #
 #
-# RC4.py
+# rc4.py
 
 import random, sys, string
 
@@ -38,6 +38,7 @@ def rc4(input, key, rounds=20):
 
 
 def encrypt(plain_message, key, iv=""):
+	print "ENCRYPTING..."
 
 	iv_rand = random.SystemRandom()
 	while len(iv) < 10:
@@ -47,7 +48,8 @@ def encrypt(plain_message, key, iv=""):
 	
 
 def decrypt(cipher_mess, key):
-	
+	print "DECRYPTING..."
+
 	iv = cipher_mess[0:10]
 	cipher_mess = cipher_mess[10:]
 	bytes = rc4(map(ord, cipher_mess), map(ord, key+iv))
