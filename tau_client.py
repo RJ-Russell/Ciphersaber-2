@@ -9,6 +9,8 @@ Andrew Wood:
 References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
             Python Docs:........................https://www.python.org/
 """
+#
+# tau_client.py
 
 import socket
 import rc4
@@ -53,16 +55,3 @@ if __name__ == '__main__':
 
 
 
-    # f = open("testfiles/test.cs1", "w")
-# message = raw_input("Enter your message: ")
-
-
-# z = encrypt(message, key2)
-# f.write(z)
-# f.close()
-
-# l = open("testfiles/test.cs1", "r")
-# message = l.read()
-# m = decrypt(message, key2)
-# print "Message: ", m, "\n"
-# l.close()
