@@ -50,7 +50,7 @@ class TauClient:
 
 
 if __name__ == '__main__':
-    client = TauClient('localhost')
+    client = TauClient('chupa-cabra.ddns.net')
     client.connect_client()
 
 
