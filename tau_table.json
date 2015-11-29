@@ -1,10 +1,7 @@
-{
-    "yoda": "localhost",
-    "vader": "chupa-cabra.ddns.net",
-	"Jacob Martin": "jv",
-	"JohnVo": "johnv.ddns.net",
-	"Nate Reed": "natreed.ddns.net"
-
-
-
+{,
+    "vader":    "chupa-cabra.ddns.net",
+	"JMartin":  "jv",
+	"JVo":      "minion.mindtax.net",
+	"NateR":    "natreed.ddns.net",
+    "
 }

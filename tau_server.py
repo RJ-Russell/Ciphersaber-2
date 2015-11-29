@@ -30,7 +30,7 @@ class TauServer:
             client, address = serv_socket.accept()
             message = client.recv(BUFFERSIZE)
             if message:
-                dec_mess = rc4.decrypt(message, key='asdfg')
+                dec_mess = rc4.decrypt(message, key='password')
                 print "Received from ", client, ": ", dec_mess
                 client.send(dec_mess)
 
