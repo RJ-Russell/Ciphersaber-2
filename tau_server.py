@@ -31,7 +31,7 @@ class TauServer:
             message = client.recv(BUFFERSIZE)
             if message:
                 dec_mess = rc4.decrypt(message, key='password')
-                print "Received from ", client, ": ", dec_mess
+                print dec_mess
                 client.send(dec_mess)
 
                 # client.close()

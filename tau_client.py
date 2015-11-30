@@ -55,7 +55,8 @@ class TauClient:
 
 
 if __name__ == '__main__':
-    client = TauClient('pi.arenjae.com')
+    #client = TauClient('pi.arenjae.com')
     #client = TauClient('chupa-cabra.ddns.net')
     #client = TauClient('minion.mindtax.net','abcdf')
+    #client = TauClient('megmurry.ddns.net')
     client.connect_client()

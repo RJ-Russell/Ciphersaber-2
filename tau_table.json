@@ -1,7 +1,11 @@
-{,
+{
+  "Address Book": {
     "vader":    "chupa-cabra.ddns.net",
-	"JMartin":  "jv",
-	"JVo":      "minion.mindtax.net",
-	"NateR":    "natreed.ddns.net",
-    "
+    "JMartin":  "jv",
+    "JVo":      "minion.mindtax.net",
+    "NateR":    "natreed.ddns.net",
+    "RachaelJ": "pi.arenjae.com"
+
+  }
+
 }
