@@ -22,8 +22,7 @@ class TauClientInterface:
         self.receiver = None
         self.address = None
         self.message = None
-        # def pick_user(self):
-        # pick_receiver = input("Enter a name to send message to: ")
+
 
     def choose_receiver(self):
         flag = True
@@ -43,19 +42,15 @@ class TauClientInterface:
 
     def get_message(self):
         self.message = raw_input("Enter message:")
+        return self.append_header()
 
-
-    def append_header(self, message):
+    def append_header(self):
         return self.version + self.sender + self.receiver + "\r\n" +  "\n" + self.message + "\n\n"
 
 
     def display_addresses(self):
         for name, address in self.addresses.items():
             print name, "-->", address
-
-
-#    def run_client(self):
-
 
 
     def send_again(self, prompt):
@@ -67,7 +62,16 @@ class TauClientInterface:
         return response == "Y"
 
 
+    def run_client(self):
+        again = True
+        while again:
+            self.choose_receiver()
+            self.get_message()
+            print self.message
+
+
 
 
 if __name__ == "__main__":
-    main()
+    client = TauClientInterface()
+    client.run_client()
