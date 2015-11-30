@@ -23,6 +23,7 @@ BACKLOG = 5
 class TauServer:
     def connect_server(self):
         serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        serv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         serv_socket.bind((HOST, PORT))
         serv_socket.listen(BACKLOG)
 

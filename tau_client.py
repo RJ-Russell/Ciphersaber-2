@@ -45,13 +45,15 @@ class TauClient:
         print "Sending message..."
         self.client_sock.send(encrypt_mess)
         print "Sent encrypted message: ", encrypt_mess
-        self.client_sock.shutdown(socket.SHUT_RDWR)
-        self.client_sock.close()
+        self.close_client()
 
     def close_client(self):
-        self.client_sock.shutdown(socket.SHUT_RDWR)
-        self.client_sock.close()
-        raw_input("Press enter to exit...")
+        try:
+            self.client_sock.shutdown(socket.SHUT_RDWR)
+            self.client_sock.close()
+            print "Sockets Closed"
+        except:
+            print "Connection Closed"
 
         # if __name__ == '__main__':
         # client = TauClient('pi.arenjae.com')
