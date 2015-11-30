@@ -27,7 +27,7 @@ class TauClient:
         self.client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect_client(self, host, message):
-        # while True:
+
         self.host = host
         self.message = message
         print "Creating socket..."
@@ -41,14 +41,9 @@ class TauClient:
             self.client_sock.close()
 
     def send_message(self):
-        # message = raw_input("Enter Message: ")
-        # if self.message == "exit":
-        # self.close_client()
-
         encrypt_mess = rc4.encrypt(self.message, self.key)
-        self.client_sock.send(encrypt_mess)
-        # print client_sock.send(encrypt_mess)
         print "Sending message..."
+        self.client_sock.send(encrypt_mess)
         print "Sent encrypted message: ", encrypt_mess
         self.client_sock.shutdown(socket.SHUT_RDWR)
         self.client_sock.close()
@@ -56,7 +51,7 @@ class TauClient:
     def close_client(self):
         self.client_sock.shutdown(socket.SHUT_RDWR)
         self.client_sock.close()
-        exit(-1)
+        raw_input("Press enter to exit...")
 
         # if __name__ == '__main__':
         # client = TauClient('pi.arenjae.com')
