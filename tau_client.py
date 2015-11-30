@@ -20,9 +20,10 @@ BUFFERSIZE = 1024
 
 
 class TauClient:
-    def __init__(self, host, key='password'):
+    def __init__(self, host, key='password', message):
         self.host = host
         self.key = key
+        self.message = message
         print self.key
 
     def connect_client(self):
@@ -59,4 +60,5 @@ if __name__ == '__main__':
     #client = TauClient('chupa-cabra.ddns.net')
     #client = TauClient('minion.mindtax.net','abcdf')
     #client = TauClient('megmurry.ddns.net')
+    #client = TauClient('junkgrave.com')
     client.connect_client()
