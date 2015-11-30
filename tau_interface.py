@@ -34,12 +34,14 @@ class TauClientInterface:
                 for name, address in self.addresses.items():
                     if self.receiver == name:
                         self.address = address
+
+                self.reciever = None
                 flag = False
 
         return self.address
 
     def append_header(self, message):
-        return self.version, self.sender,self.receiver + "\r\n", "\n", message
+        return self.version + self.sender + self.receiver + "\r\n" +  "\n" + message + "\n\n"
 
     def display_addresses(self):
         for name, address in self.addresses.items():
