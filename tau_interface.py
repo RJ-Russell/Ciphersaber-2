@@ -15,7 +15,7 @@ from tau_client import TauClient
 
 class TauClientInterface:
     def __init__(self):
-        self.client = TauClient()
+        self.client = None
         self.address_book = json.load(open("tau_table.json"))
         self.addresses = self.address_book["Address_Book"]
         self.version = "Version: 0.2\r\n"
@@ -44,7 +44,6 @@ class TauClientInterface:
             self.message = raw_input("Enter message:")
             if self.message == "exit":
                 self.client.close_client()
-                exit(-1)
             else:
                 self.append_header()
                 break
@@ -69,15 +68,22 @@ class TauClientInterface:
 
 
     def run_client(self):
-        while True:
+        flag1 = True
+        #flag2 = True
+        while flag1:
+            self.client = TauClient()
             self.choose_receiver()
-            while True:
+            #while flag2:
             self.get_message()
-            if self.get_message() == "exit":
-                break
+            if self.message == "exit":
+                flag2 = False
             else:
                 self.client.connect_client(self.address, self.message)
             print self.message
+            #flag2 = self.send_again("Send to "+ self.receiver + " again? ")
+            flag1 = self.send_again("Send another message? ")
+            #if flag1:
+                #flag2 = True
 
 
 
