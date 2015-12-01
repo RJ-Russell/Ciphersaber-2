@@ -41,7 +41,7 @@ class TauClientInterface:
 
     def get_message(self):
         while True:
-            self.message = raw_input("Enter message:")
+            self.message = raw_input("Enter message: ")
             if self.message == "exit":
                 self.client.close_client()
             else:
@@ -69,22 +69,16 @@ class TauClientInterface:
 
     def run_client(self):
         flag1 = True
-        #flag2 = True
         while flag1:
             self.client = TauClient()
             self.choose_receiver()
-            #while flag2:
             self.get_message()
             if self.message == "exit":
                 flag2 = False
             else:
                 self.client.connect_client(self.address, self.message)
             print self.message
-            #flag2 = self.send_again("Send to "+ self.receiver + " again? ")
             flag1 = self.send_again("Send another message? ")
-            #if flag1:
-                #flag2 = True
-
 
 
 if __name__ == "__main__":
