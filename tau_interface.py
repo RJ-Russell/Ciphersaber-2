@@ -67,6 +67,7 @@ class TauClientInterface:
     def display_addresses(self):
         for name, address in self.addresses.items():
             print name, "-->", address
+        print "\n\n"
 
     def display_help(self):
         print """
