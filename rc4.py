@@ -42,7 +42,7 @@ def rc4(input, key, rounds=20):
 
 def get_time():
     timestamp = time.time()
-    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime(%Y-%m-%d @ %H:%M:%S')
+    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d @ %H:%M:%S')
     return timestamp
 
 
