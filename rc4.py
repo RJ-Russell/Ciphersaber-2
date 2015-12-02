@@ -7,8 +7,12 @@
 #
 # rc4.py
 
-import random, sys, string
-import time, datetime
+
+import random
+import string
+import time
+import datetime
+
 
 # Key scheduling
 def rc4(input, key, rounds=20):
@@ -36,7 +40,6 @@ def rc4(input, key, rounds=20):
     return alt_message
 
 
-
 def get_time():
     timestamp = time.time()
     timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('Sent on: %Y-%m-%d @ %H:%M:%S')
@@ -49,7 +52,7 @@ def encrypt(plain_message, key, iv=""):
 
     iv_rand = random.SystemRandom()
     while len(iv) < 10:
-        iv = iv + chr(int(iv_rand.random()))
+        iv += chr(int(iv_rand.random()))
     bytes = rc4(map(ord, plain_message), map(ord, key + iv))
     return iv + string.join(map(chr, bytes), "")
 
@@ -83,7 +86,6 @@ if __name__ == "__main__":
 
     # j = decrypt(i, key2)
     # print "AFTER DECRYPT: ", j
-
 
     # e = encrypt(message, key)
     # print "E: ", e
