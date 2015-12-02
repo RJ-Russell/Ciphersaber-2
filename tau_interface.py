@@ -19,8 +19,8 @@ class TauClientInterface:
         self.client = None
         self.address_book = json.load(open("tau_table.json"))
         self.addresses = self.address_book["Address_Book"]
-        self.version = "Version: 0.2\r\n"
-        self.sender = "From: chupacabra\r\n"
+        self.version = "version: 0.2\r\n"
+        self.sender = "from: chupacabra\r\n"
         self.receiver = None
         self.address = None
         self.message = None
@@ -61,7 +61,7 @@ class TauClientInterface:
 
 
     def append_header(self):
-        self.message = self.version + self.sender + "To: " + self.receiver + "\r\n" +  "\n\nMessage: " + self.message + "\n\n"
+        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" +  "\n\nmessage: " + self.message + "\n\n"
 
 
     def display_addresses(self):
