@@ -44,7 +44,7 @@ class TauClient:
         encrypt_mess = rc4.encrypt(self.message, self.key)
         print "Sending message..."
         self.client_sock.send(encrypt_mess)
-        print "Sent encrypted message: ", encrypt_mess
+        print "Sent encrypted message!"
         self.close_client()
 
     def close_client(self):

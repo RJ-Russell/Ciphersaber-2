@@ -28,13 +28,20 @@ class TauClientInterface:
     def choose_receiver(self):
         while True:
             self.receiver = raw_input("Pick recipient: ")
-            if self.receiver == "print":
+            if self.receiver in ("--list", "-l"):
                 self.display_addresses()
+            elif self.receiver in ("--help", "-h"):
+                self.display_help();
             else:
                 for name, address in self.addresses.items():
                     if self.receiver == name:
                         self.address = address
-                break
+
+                else:
+                    print "\nIntended recipient not found in address book"
+                    print "\nPlease select again...\n\n"
+                    return -1
+
 
         return self.address
 
@@ -57,6 +64,15 @@ class TauClientInterface:
         for name, address in self.addresses.items():
             print name, "-->", address
 
+    def display_help(self):
+        print """
+        --list (-l): prints the address book
+        --help (-h): displays the help message
+
+        Choose a person to send a message to by entering in the user name of the
+        intended recipient.
+
+        """
 
     def send_again(self, prompt):
         response = 'n'
@@ -71,7 +87,10 @@ class TauClientInterface:
         flag1 = True
         while flag1:
             self.client = TauClient()
-            self.choose_receiver()
+            receiver = self.choose_receiver()
+            if receiver == -1:
+                continue
+
             self.get_message()
             if self.message == "exit":
                 flag2 = False
