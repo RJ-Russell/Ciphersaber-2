@@ -33,6 +33,7 @@ class TauClient:
         print "Creating socket..."
         print "Connecting to host and port..."
         try:
+            self.client_sock.settimeout(10)
             self.client_sock.connect((self.host, PORT))
             print "Connected..."
             self.send_message()
