@@ -39,6 +39,7 @@ class TauClient:
         except socket.error:
             print "Cannot connect at this time"
             self.client_sock.close()
+            return -1
 
     def send_message(self):
         encrypt_mess = rc4.encrypt(self.message, self.key)

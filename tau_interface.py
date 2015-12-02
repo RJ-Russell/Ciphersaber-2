@@ -45,7 +45,8 @@ class TauClientInterface:
                         print self.address
                         flag = False
                         break
-
+                else:
+                    print "no"
 
     def get_message(self):
         while True:
@@ -70,8 +71,9 @@ class TauClientInterface:
         --list (-l): prints the address book
         --help (-h): displays the help message
 
-        'clear': clears the client screen
+        'clear': clears the client screen (only on recipient prompt)
         'exit': exits program
+          ('exit' can be entered for a recipient or for a message to exit program.)
 
         Choose a person to send a message to by entering in the user name of the
         intended recipient.
@@ -101,10 +103,14 @@ class TauClientInterface:
 
             self.get_message()
             if self.message == "exit":
-                flag2 = False
+                self.exit_program()
             else:
-                self.client.connect_client(self.address, self.message)
-            print self.message
+                success = self.client.connect_client(self.address, self.message)
+
+                if not success == -1:
+                    print self.message
+
+
             flag1 = self.send_again("Send another message? ")
 
 
