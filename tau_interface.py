@@ -46,13 +46,15 @@ class TauClientInterface:
                         flag = False
                         break
                 else:
-                    print "no"
+                    print "Recipient entered was not found."
+                    print "\nPlease try again."
+                    print "(--help(-h) for help menu, --list(-l) to display addresses.\n\n"
 
     def get_message(self):
         while True:
             self.message = raw_input("Enter message: ")
             if self.message == "exit":
-                self.client.close_client()
+                self.exit_program()
             else:
                 self.append_header()
                 break
@@ -93,6 +95,7 @@ class TauClientInterface:
 
     def exit_program(self):
         print ("Exiting Client..")
+        self.client.close_client()
         exit(-1)
 
     def run_client(self):
