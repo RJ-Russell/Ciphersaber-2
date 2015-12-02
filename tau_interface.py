@@ -11,8 +11,6 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 """
 import json
 import os
-import time
-import datetime
 from tau_client import TauClient
 
 
@@ -58,17 +56,12 @@ class TauClientInterface:
                 self.exit_program()
 
     def append_header(self):
-        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + self.message + "\r\n"
+        self.message = self.version + self.sender + "to: " + self.receiver + "\n\n" + self.message + "\n"
 
     def display_addresses(self):
         for name, address in self.addresses.items():
             print name, "-->", address
         print "\n\n"
-
-    def get_time(self):
-        timestamp = time.time()
-        self.time_stamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-        print self.time_stamp
 
     @staticmethod
     def display_help():
@@ -104,7 +97,6 @@ class TauClientInterface:
             if self.message == "exit":
                 self.exit_program()
             else:
-                self.get_time()
                 self.append_header()
                 success = self.client.connect_client(self.address, self.message)
 

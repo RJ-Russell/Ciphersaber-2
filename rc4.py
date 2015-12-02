@@ -8,7 +8,7 @@
 # rc4.py
 
 import random, sys, string
-
+import time, datetime
 
 # Key scheduling
 def rc4(input, key, rounds=20):
@@ -36,8 +36,16 @@ def rc4(input, key, rounds=20):
     return alt_message
 
 
+
+def get_time():
+    timestamp = time.time()
+    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('Sent on: %Y-%m-%d @ %H:%M:%S')
+    return timestamp
+
+
 def encrypt(plain_message, key, iv=""):
     print "ENCRYPTING..."
+    plain_message += "\r\n" + get_time() + "\r\n"
 
     iv_rand = random.SystemRandom()
     while len(iv) < 10:
