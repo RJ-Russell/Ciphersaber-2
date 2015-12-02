@@ -11,6 +11,8 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 """
 
 # tau_server.py
+import signal
+import sys
 import socket
 import rc4
 
@@ -28,16 +30,28 @@ class TauServer:
         serv_socket.listen(BACKLOG)
 
         while 1:
-            client, address = serv_socket.accept()
+            try:
+                print "Lisening on port:", PORT
+                print "(Press Control-C to Exit Server...)\n\n"
+                client, address = serv_socket.accept()
+            except KeyboardInterrupt:
+                serv_socket.close()
+                print "\nYou pressed Control-C..."
+                print "\n\nDisconnected from Server.\n"
+                exit(0)
+
             message = client.recv(BUFFERSIZE)
             if message:
                 dec_mess = rc4.decrypt(message, key='password')
                 print dec_mess
                 client.send(dec_mess)
 
-                # client.close()
 
 
+
+
+
+    # client.close()
 
 
 if __name__ == '__main__':
