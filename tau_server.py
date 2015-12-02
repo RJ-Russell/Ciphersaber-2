@@ -29,7 +29,7 @@ class TauServer:
         serv_socket.bind((HOST, PORT))
         serv_socket.listen(BACKLOG)
 
-        print "\n\nListening on port:", PORT
+        print "Listening on port:", PORT
         while 1:
             try:
                 print "(Press Control-C to Exit Server...)\n"
