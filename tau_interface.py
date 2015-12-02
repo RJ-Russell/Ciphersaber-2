@@ -11,6 +11,8 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 """
 import json
 import os
+import time
+import datetime
 from tau_client import TauClient
 
 
@@ -24,6 +26,7 @@ class TauClientInterface:
         self.receiver = None
         self.address = None
         self.message = None
+        self.time_stamp = None
 
     def choose_receiver(self):
         flag = True
@@ -50,21 +53,22 @@ class TauClientInterface:
                     print "(--help(-h) for help menu, --list(-l) to display addresses.\n\n"
 
     def get_message(self):
-        while True:
             self.message = raw_input("Enter message: ")
             if self.message == "exit":
                 self.exit_program()
-            else:
-                self.append_header()
-                break
 
     def append_header(self):
-        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + self.message + "\n\n"
+        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + self.time_stamp + "\n\n" + self.message + "\n\n"
 
     def display_addresses(self):
         for name, address in self.addresses.items():
             print name, "-->", address
         print "\n\n"
+
+    def get_time(self):
+        timestamp = time.time()
+        self.time_stamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+        print self.time_stamp
 
     @staticmethod
     def display_help():
@@ -100,6 +104,8 @@ class TauClientInterface:
             if self.message == "exit":
                 self.exit_program()
             else:
+                self.get_time()
+                self.append_header()
                 success = self.client.connect_client(self.address, self.message)
 
                 if not success == -1:
