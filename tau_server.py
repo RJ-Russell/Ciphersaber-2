@@ -31,7 +31,7 @@ class TauServer:
 
         while 1:
             try:
-                print "Lisening on port:", PORT
+                print "\n\nLisening on port:", PORT
                 print "(Press Control-C to Exit Server...)\n\n"
                 client, address = serv_socket.accept()
             except KeyboardInterrupt:
