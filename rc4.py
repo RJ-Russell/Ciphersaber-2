@@ -42,13 +42,13 @@ def rc4(input, key, rounds=20):
 
 def get_time():
     timestamp = time.time()
-    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('Sent on: %Y-%m-%d @ %H:%M:%S')
+    timestamp = datetime.datetime.fromtimestamp(timestamp).strftime(%Y-%m-%d @ %H:%M:%S')
     return timestamp
 
 
 def encrypt(plain_message, key, iv=""):
     print "ENCRYPTING..."
-    plain_message += "\n" + get_time() + "\n"
+    plain_message += "\n" + "Sent on: " + get_time() + "\n"
 
     iv_rand = random.SystemRandom()
     while len(iv) < 10:
@@ -63,7 +63,7 @@ def decrypt(cipher_mess, key):
     iv = cipher_mess[0:10]
     cipher_mess = cipher_mess[10:]
     bytes = rc4(map(ord, cipher_mess), map(ord, key + iv))
-    return string.join(map(chr, bytes), "") + get_time()
+    return string.join(map(chr, bytes), "") + "Received on: " + get_time() + "\n"
 
 
 if __name__ == "__main__":
