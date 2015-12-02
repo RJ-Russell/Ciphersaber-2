@@ -47,13 +47,6 @@ class TauServer:
                 client.send(dec_mess)
 
 
-
-
-
-
-    # client.close()
-
-
 if __name__ == '__main__':
     server = TauServer()
     server.connect_server()

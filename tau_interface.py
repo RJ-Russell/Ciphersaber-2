@@ -25,7 +25,6 @@ class TauClientInterface:
         self.address = None
         self.message = None
 
-
     def choose_receiver(self):
         flag = True
         while flag:
@@ -59,17 +58,16 @@ class TauClientInterface:
                 self.append_header()
                 break
 
-
     def append_header(self):
         self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + self.message + "\n\n"
-
 
     def display_addresses(self):
         for name, address in self.addresses.items():
             print name, "-->", address
         print "\n\n"
 
-    def display_help(self):
+    @staticmethod
+    def display_help():
         print """
         --list (-l): prints the address book
         --help (-h): displays the help message
@@ -83,9 +81,9 @@ class TauClientInterface:
 
         """
 
-
-    def clear(self):
-        os.system('cls' if os.name=='nt' else 'clear')
+    @staticmethod
+    def clear():
+        os.system('cls' if os.name == 'nt' else 'clear')
 
     def exit_program(self):
         print ("Exiting Client..")
@@ -106,9 +104,6 @@ class TauClientInterface:
 
                 if not success == -1:
                     print self.message
-
-
-
 
 if __name__ == "__main__":
     client = TauClientInterface()
