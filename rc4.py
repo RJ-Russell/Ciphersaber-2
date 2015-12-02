@@ -45,7 +45,7 @@ def get_time():
 
 def encrypt(plain_message, key, iv=""):
     print "ENCRYPTING..."
-    plain_message += "\r\n" + get_time() + "\n"
+    plain_message += "\n" + get_time() + "\n"
 
     iv_rand = random.SystemRandom()
     while len(iv) < 10:
