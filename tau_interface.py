@@ -75,20 +75,13 @@ class TauClientInterface:
 
         'clear': clears the client screen (only on recipient prompt)
         'exit': exits program
-          ('exit' can be entered for a recipient or for a message to exit program.)
+          ('exit' can be entered on recipient/message prompt to exit program.)
 
         Choose a person to send a message to by entering in the user name of the
         intended recipient.
 
         """
 
-    def send_again(self, prompt):
-        response = 'n'
-        while response not in ("Y","N"):
-            response = raw_input(prompt)
-            response = response.upper()
-
-        return response == "Y"
 
     def clear(self):
         os.system('cls' if os.name=='nt' else 'clear')
@@ -114,7 +107,6 @@ class TauClientInterface:
                     print self.message
 
 
-            flag1 = self.send_again("Send another message? ")
 
 
 if __name__ == "__main__":
