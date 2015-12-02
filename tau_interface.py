@@ -10,6 +10,7 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
             Python Docs:........................https://www.python.org/
 """
 import json
+import os
 from tau_client import TauClient
 
 
@@ -19,31 +20,31 @@ class TauClientInterface:
         self.address_book = json.load(open("tau_table.json"))
         self.addresses = self.address_book["Address_Book"]
         self.version = "Version: 0.2\r\n"
-        self.sender = "chupacabra\r\n"
+        self.sender = "From: chupacabra\r\n"
         self.receiver = None
         self.address = None
         self.message = None
 
 
     def choose_receiver(self):
-        while True:
+        flag = True
+        while flag:
             self.receiver = raw_input("Pick recipient: ")
             if self.receiver in ("--list", "-l"):
                 self.display_addresses()
             elif self.receiver in ("--help", "-h"):
-                self.display_help();
+                self.display_help()
+            elif self.receiver == 'clear':
+                self.clear()
+            elif self.receiver == 'exit':
+                self.exit_program()
             else:
                 for name, address in self.addresses.items():
                     if self.receiver == name:
                         self.address = address
-
-                else:
-                    print "\nIntended recipient not found in address book"
-                    print "\nPlease select again...\n\n"
-                    return -1
-
-
-        return self.address
+                        print self.address
+                        flag = False
+                        break
 
 
     def get_message(self):
@@ -57,7 +58,7 @@ class TauClientInterface:
 
 
     def append_header(self):
-        self.message = self.version + self.sender + self.receiver + "\r\n" +  "\n" + self.message + "\n\n"
+        self.message = self.version + self.sender + "To: " + self.receiver + "\r\n" +  "\n\nMessage: " + self.message + "\n\n"
 
 
     def display_addresses(self):
@@ -68,6 +69,9 @@ class TauClientInterface:
         print """
         --list (-l): prints the address book
         --help (-h): displays the help message
+
+        'clear': clears the client screen
+        'exit': exits program
 
         Choose a person to send a message to by entering in the user name of the
         intended recipient.
@@ -82,14 +86,18 @@ class TauClientInterface:
 
         return response == "Y"
 
+    def clear(self):
+        os.system('cls' if os.name=='nt' else 'clear')
+
+    def exit_program(self):
+        print ("Exiting Client..")
+        exit(-1)
 
     def run_client(self):
         flag1 = True
         while flag1:
             self.client = TauClient()
-            receiver = self.choose_receiver()
-            if receiver == -1:
-                continue
+            self.choose_receiver()
 
             self.get_message()
             if self.message == "exit":
