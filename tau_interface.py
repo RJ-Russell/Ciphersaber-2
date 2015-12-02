@@ -56,7 +56,7 @@ class TauClientInterface:
                 self.exit_program()
 
     def append_header(self):
-        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + "\r\n"+ self.message
+        self.message = self.version + self.sender + "to: " + self.receiver + "\r\n" + "\r\n" + self.message
 
     def display_addresses(self):
         for name, address in self.addresses.items():

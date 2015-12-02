@@ -11,10 +11,9 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 """
 
 # tau_server.py
-import signal
-import sys
 import socket
 import rc4
+
 
 HOST = ''
 PORT = 6283
