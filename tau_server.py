@@ -29,9 +29,9 @@ class TauServer:
         serv_socket.listen(BACKLOG)
 
         print "Listening on port:", PORT
+        print "(Press Control-C to Exit Server...)\n"
         while 1:
             try:
-                print "(Press Control-C to Exit Server...)\n"
                 client, address = serv_socket.accept()
             except KeyboardInterrupt:
                 serv_socket.close()
@@ -43,7 +43,8 @@ class TauServer:
             if message:
                 dec_mess = rc4.decrypt(message, key='password')
                 print dec_mess
-                client.send(dec_mess)
+                print "(Press Control-C to Exit Server...)\n"
+               # client.send(dec_mess)
 
 
 if __name__ == '__main__':

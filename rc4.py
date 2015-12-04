@@ -14,7 +14,6 @@ import time
 import datetime
 
 
-# Key scheduling
 def rc4(input, key, rounds=20):
     state = range(256)
 
