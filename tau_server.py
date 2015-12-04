@@ -42,7 +42,7 @@ class TauServer:
             message = client.recv(BUFFERSIZE)
             if message:
                 dec_mess = rc4.decrypt(message, key='password')
-                print dec_mess
+                print dec_mess + "\n" + address
                 print "(Press Control-C to Exit Server...)\n"
                # client.send(dec_mess)
 
