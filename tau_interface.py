@@ -30,9 +30,9 @@ class TauClientInterface:
         flag = True
         while flag:
             self.receiver = raw_input("Pick recipient: ")
-            if self.receiver in ("--list", "-l"):
+            if self.receiver in ("-address", "-a"):
                 self.display_addresses()
-            elif self.receiver in ("--help", "-h"):
+            elif self.receiver in ("-help", "-h"):
                 self.display_help()
             elif self.receiver == 'clear':
                 self.clear()
@@ -48,7 +48,7 @@ class TauClientInterface:
                 else:
                     print "Recipient entered was not found."
                     print "\nPlease try again."
-                    print "(--help(-h) for help menu, --list(-l) to display addresses.\n\n"
+                    print "(-help(-h) for help menu, -address(-a) to display addresses.\n\n"
 
     def get_message(self):
             self.message = raw_input("Enter message: ")
@@ -66,11 +66,11 @@ class TauClientInterface:
     @staticmethod
     def display_help():
         print """
-        --list (-l): prints the address book
-        --help (-h): displays the help message
+        -address (-a):  display address book
+           -help (-h):  displays the help message
 
         'clear': clears the client screen (only on recipient prompt)
-        'exit': exits program
+         'exit': exits program
           ('exit' can be entered on recipient/message prompt to exit program.)
 
         Choose a person to send a message to by entering in the user name of the
