@@ -47,7 +47,7 @@ def get_time():
 
 def encrypt(plain_message, key, iv=""):
     print "ENCRYPTING..."
-    plain_message += "\n" + "Sent on: " + get_time()
+    plain_message += "\n" + "Sent on: " + get_time() + "\n"
 
     iv_rand = random.SystemRandom()
     while len(iv) < 10:
@@ -62,7 +62,7 @@ def decrypt(cipher_mess, key):
     iv = cipher_mess[0:10]
     cipher_mess = cipher_mess[10:]
     bytes = rc4(map(ord, cipher_mess), map(ord, key + iv))
-    return string.join(map(chr, bytes), "") + "\nReceived on: " + get_time() + "\n"
+    return string.join(map(chr, bytes), "") + "\nReceived on: " + get_time()
 
 
 if __name__ == "__main__":
