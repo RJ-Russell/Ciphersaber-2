@@ -18,7 +18,7 @@ from tau_client import TauClient
 class TauClientInterface:
     def __init__(self):
         self.client = None
-        self.address_book = json.load(open("tau_table.json"))
+        self.address_book = json.load(open("address_book.json"))
         self.addresses = self.address_book["Address_Book"]
         self.version = "version: 0.2\r\n"
         self.sender = "from: chupacabra\r\n"
