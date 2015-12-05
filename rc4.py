@@ -5,7 +5,14 @@
 # Andrew Wood:
 #
 #
-# rc4.py
+"""
+rc4.py
+
+This file is responsible for encrypting/decrypting a message using the CipherSaber2 algorithm.
+Takes in either an encrypted or plain text message. Combines the key with the IV to be used
+in the CipherSaber2 algorithm. Generates a key scheduling, key stream, and xor's each byte of the
+message with the key stream. Returns the result.
+"""
 
 
 import random
@@ -15,6 +22,12 @@ import datetime
 
 
 def rc4(input, key, rounds=20):
+    """
+    :param input: A string of converted integers (this happens in the encrypt/decrypt methods)
+    :param key: key+iv sent in, also converted to integers
+    :param rounds: Default 20, may pass in other values if needed.
+    :return: newly generated list of xor'd bytes.
+    """
     state = range(256)
 
     len_state = len(state)
@@ -40,93 +53,48 @@ def rc4(input, key, rounds=20):
 
 
 def get_time():
+    """
+    :return: timestamp containing the formatted timestamp string
+    """
     timestamp = time.time()
     timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d @ %H%M')
     return timestamp
 
 
 def encrypt(plain_message, key, iv=""):
+    """
+    :param plain_message: Message sent in from the client
+    :param key: value used  for all encryption/decryption
+    :param iv: stores first ten 'bytes' of the plain message
+    :return: joined list in string format of the encrypted message
+    """
     print "ENCRYPTING..."
-    plain_message += "\n" + "Sent on: " + get_time() + "\n"
-
     iv_rand = random.SystemRandom()
+    # Creates the IV
     while len(iv) < 10:
         iv += chr(int(iv_rand.random()))
+    # maps each character to an integer value and sends to be xor'd.
     bytes = rc4(map(ord, plain_message), map(ord, key + iv))
+
+    plain_message += "\n" + "Sent on: " + get_time() + "\n"
+    # joins the list in string format and converts each int to a string representation
     return iv + string.join(map(chr, bytes), "")
 
 
 def decrypt(cipher_mess, key):
+    """
+    :param cipher_mess: encrypted message sent in from the server
+    :param key: value used for encryption/decryption
+    :return: joined list in string format of the plain text message
+    """
     print "DECRYPTING..."
-
+    # Takes the IV from the messages
     iv = cipher_mess[0:10]
+    # Stores the message portion of the encrypted message
     cipher_mess = cipher_mess[10:]
+    # maps each byte to an integer value and sends to be xor'd
     bytes = rc4(map(ord, cipher_mess), map(ord, key + iv))
+    # jonis the list in string format and converts each int to a string representation
     return string.join(map(chr, bytes), "") + "\nReceived on: " + get_time()
 
-
-if __name__ == "__main__":
-    # key = "asdfg"
-    # infile = open("testfiles/cstest.cs2", "r")
-    # e = infile.read()
-    # d = decrypt(e, key)
-    # print "D: ", d, "\n"
-
-    # key1 = "asdfg"
-    # jfile = open("cstest1.cs1", "r")
-    # f = jfile.read()
-    # g = decrypt(f, key1)
-    # print "D: ", g
-
-    key2 = "SecretMessageforCongress"
-    # ifile = open("testfiles/cstest2.cs1", "r")
-    # i = ifile.read()
-    # print "BEFORE DECRYPT: ", i
-
-    # j = decrypt(i, key2)
-    # print "AFTER DECRYPT: ", j
-
-    # e = encrypt(message, key)
-    # print "E: ", e
-
-    f = open("testfiles/test.cs1", "w")
-    message = raw_input("Enter your message: ")
-    z = encrypt(message, key2)
-    f.write(z)
-    f.close()
-
-    l = open("testfiles/test.cs1", "r")
-    message = l.read()
-    m = decrypt(message, key2)
-    print "Message: ", m, "\n"
-    l.close()
-
-
-# filename = sys.argv[1]
-# a_file = open(filename, "r")
-# encrypted = a_file.readline().rstrip()
-# decrypted = decrypt(encrypted,key)
-
-# f = d.decode("ASCII")
-# print("F: ", f)
-
-# m = rc4(message, key)
-# print("M: ", m)
-# c = key_scheduling(key)
-# print("C: ", c, '\n')
-# d = key_scheduling(key)
-# print("D: ", d, '\n')
-# e = key_scheduling(key)
-# print("E: ", e, '\n')
-# f = key_scheduling(key)
-# print("F: ", f, '\n')
-
-# z = generate_stream(c,message,key)
-# print("Z: ",z,'\n')
-
-# enc_mess = encrypt(message, key)
-# print("ENCRYPTED MESSAGE: ", enc_mess)
-
-# dec_message = decrypt(enc_mess, key)
-# print("DECRYPTED MESSAGE: ", dec_message)
 
