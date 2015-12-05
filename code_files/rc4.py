@@ -79,7 +79,7 @@ def encrypt(plain_message, key, iv=""):
 
     plain_message += "\n" + "Sent on: " + get_time() + "\n"
     # joins the list in string format and converts each int to a string representation
-    return iv + string.join(map(chr, encrypted_message), "")
+    return iv + string.join(map(chr, encrypted_message), "") + get_time()
 
 
 def decrypt(cipher_mess, key):
