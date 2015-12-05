@@ -12,13 +12,13 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 """
 import json
 import os
-from tau_client import TauClient
+from code_files.tau_client import TauClient
 
 
 class TauClientInterface:
     def __init__(self):
         self.client = None
-        self.address_book = json.load(open("address_book.json"))
+        self.address_book = json.load(open("code_files/address_book.json"))
         self.addresses = self.address_book["Address_Book"]
         self.version = "version: 0.2\r\n"
         self.sender = "from: chupacabra\r\n"
