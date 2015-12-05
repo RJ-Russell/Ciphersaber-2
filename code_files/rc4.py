@@ -69,15 +69,16 @@ def encrypt(plain_message, key, iv=""):
     :param iv: stores first ten 'bytes' of the plain message
     :return: joined list in string format of the encrypted message
     """
+    # addes time stamp to message
+    plain_message += "\n" + "Sent on: " + get_time() + "\n"
     print "ENCRYPTING..."
     iv_rand = random.SystemRandom()
     # Creates the IV
     while len(iv) < 10:
         iv += chr(int(iv_rand.random()))
     # maps each character to an integer value and sends to be xor'd.
-    encrypted_message = rc4(map(ord, plain_message), map(ord, key + iv)) + get_time()
+    encrypted_message = rc4(map(ord, plain_message), map(ord, key + iv))
 
-    plain_message += "\n" + "Sent on: " + get_time() + "\n"
     # joins the list in string format and converts each int to a string representation
     return iv + string.join(map(chr, encrypted_message), "")
 
