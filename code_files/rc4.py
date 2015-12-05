@@ -5,6 +5,7 @@
 # Andrew Wood:
 #
 # CipherSaber2 algorithm provided by Bart Massey
+# https://github.com/BartMassey/ciphersaber2/blob/master/README.md
 """
 rc4.py
 
