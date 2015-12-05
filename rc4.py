@@ -4,7 +4,7 @@
 # Rachael Johnson:
 # Andrew Wood:
 #
-#
+# CipherSaber2 algorithm provided by Bart Massey
 """
 rc4.py
 
@@ -21,7 +21,7 @@ import time
 import datetime
 
 
-def rc4(input, key, rounds=20):
+def rc4(message, key, rounds=20):
     """
     :param input: A string of converted integers (this happens in the encrypt/decrypt methods)
     :param key: key+iv sent in, also converted to integers
@@ -42,7 +42,7 @@ def rc4(input, key, rounds=20):
     alt_message = []
     i = 0
     j = 0
-    for byte in input:
+    for byte in message:
         i = (i + 1) % 256
         j = (j + state[i]) % 256
         state[i], state[j] = state[j], state[i]
@@ -74,11 +74,11 @@ def encrypt(plain_message, key, iv=""):
     while len(iv) < 10:
         iv += chr(int(iv_rand.random()))
     # maps each character to an integer value and sends to be xor'd.
-    bytes = rc4(map(ord, plain_message), map(ord, key + iv))
+    encrypted_message = rc4(map(ord, plain_message), map(ord, key + iv))
 
     plain_message += "\n" + "Sent on: " + get_time() + "\n"
     # joins the list in string format and converts each int to a string representation
-    return iv + string.join(map(chr, bytes), "")
+    return iv + string.join(map(chr, encrypted_message), "")
 
 
 def decrypt(cipher_mess, key):
@@ -93,8 +93,8 @@ def decrypt(cipher_mess, key):
     # Stores the message portion of the encrypted message
     cipher_mess = cipher_mess[10:]
     # maps each byte to an integer value and sends to be xor'd
-    bytes = rc4(map(ord, cipher_mess), map(ord, key + iv))
+    plain_text = rc4(map(ord, cipher_mess), map(ord, key + iv))
     # jonis the list in string format and converts each int to a string representation
-    return string.join(map(chr, bytes), "") + "\nReceived on: " + get_time()
+    return string.join(map(chr, plain_text), "") + "\nReceived on: " + get_time()
 
 
