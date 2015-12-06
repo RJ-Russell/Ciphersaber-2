@@ -13,8 +13,7 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 
 # tau_server.py
 import socket
-import rc4
-
+from code_files.rc4 import rc4
 
 HOST = ''
 PORT = 6283
@@ -46,6 +45,7 @@ class TauServer:
                 print dec_mess, "  IP Address: {}".format(address[0])
                 print "(Press Control-C to Exit Server...)\n"
                # client.send(dec_mess)
+
 
 
 if __name__ == '__main__':
