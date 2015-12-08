@@ -1,17 +1,23 @@
 #!/usr/bin/python
 """
 
-Copyright (C) 2015 RJ Russell
-Created with the collaborative assistance of::
-Jacob Martin:
-Rachael Johnson:
-Andrew Wood:
+ Copyright (C) 2015 RJ Russell
+ Created with the collaborative assistance of::
+ Jacob Martin:
+ Rachael Johnson:
+ Andrew Wood:
 
-References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
-            Python Docs:........................https://www.python.org/
+ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
+             Python Docs:........................https://www.python.org/
+
+ tau_server.py
+
+ This file is responsible for binding to a port and listening for incoming messages.
+ The message is decrypted upon receipt and displayed to the terminal.
+ To exit the server, press Control + C.
+
 """
 
-# tau_server.py
 import socket
 import code_files.rc4
 
@@ -23,6 +29,11 @@ BACKLOG = 5
 
 class TauServer:
     def connect_server(self):
+        """
+            Sets up all the sockets and connection, decrypts and displays
+            incoming messages. Exits with Control+C and displays appropriate
+            exit message in the except block.
+        """
         serv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         serv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         serv_socket.bind((HOST, PORT))

@@ -1,12 +1,11 @@
-# Copyright (C) 2015 RJ Russell
-# Created with in collaboration:
-# Jacob Martin:
-# Rachael Johnson:
-# Andrew Wood:
-#
-# CipherSaber2 algorithm provided by Bart Massey
-# https://github.com/BartMassey/ciphersaber2/blob/master/README.md
 """
+ Copyright (C) 2015 RJ Russell
+ Created with in collaboration:
+ Jacob Martin, Rachael Johnson, Andrew Wood:
+
+ CipherSaber2 algorithm provided by Bart Massey
+ https://github.com/BartMassey/ciphersaber2/blob/master/README.md
+
 rc4.py
 
 This file is responsible for encrypting/decrypting a message using the CipherSaber2 algorithm.
@@ -98,5 +97,7 @@ def decrypt(cipher_mess, key):
     plain_text = rc4(map(ord, cipher_mess), map(ord, key + iv))
     # jonis the list in string format and converts each int to a string representation
     return string.join(map(chr, plain_text), "") + "\nReceived on: " + get_time()
+
+
 
 

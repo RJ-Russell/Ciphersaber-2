@@ -2,15 +2,20 @@
 
 Copyright (C) 2015 RJ Russell
 Created with the collaborative assistance of::
-Jacob Martin:
-Rachael Johnson:
-Andrew Wood:
+Jacob Martin, Rachael Johnson, Andrew Wood:
 
 References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
             Python Docs:........................https://www.python.org/
+
+
+ tau_client.py
+
+ This file is responsible for taking in a message, connecting to the recipient's
+ address and port number, sending the message to be encrypted, and then sending
+ the message to the intended recipient. The user interface for this file is
+ tau_interface.py.
 """
-#
-# tau_client.py
+
 
 import socket
 import rc4
@@ -21,13 +26,18 @@ BUFFERSIZE = 1024
 
 class TauClient:
     def __init__(self, key='password'):
+        """ Initializes all values for the client sockets and for the message encryption """
         self.host = None
         self.message = None
         self.key = key
         self.client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect_client(self, host, message):
-
+        """
+        :param host: Passed in from the tau_interface. Initializes recipients address.
+        :param message: Passed in from the tau_interface. Message to be sent to recipient
+        :return: Returns -1 if message cannot be sent due to socket timeout.
+        """
         self.host = host
         self.message = message
         print "Creating socket..."
@@ -43,6 +53,7 @@ class TauClient:
             return -1
 
     def send_message(self):
+        """ Catches the returned encrypted message and sends it to the recipient then closes socket """
         encrypt_mess = rc4.encrypt(self.message, self.key)
         print "Sending message..."
         self.client_sock.send(encrypt_mess)
@@ -50,17 +61,11 @@ class TauClient:
         self.close_client()
 
     def close_client(self):
+        """  Correctly closes the sockets """
         try:
             self.client_sock.shutdown(socket.SHUT_RDWR)
             self.client_sock.close()
             print "Sockets Closed"
         except:
-            print "Connection Closed"
+            print "Socket Close Error"
 
-        # if __name__ == '__main__':
-        # client = TauClient('pi.arenjae.com')
-        # client = TauClient('chupa-cabra.ddns.net')
-        # client = TauClient('minion.mindtax.net','abcdf')
-        # client = TauClient('megmurry.ddns.net')
-        # client = TauClient('junkgrave.com')
-        # client.connect_client()
