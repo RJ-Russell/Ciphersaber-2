@@ -67,5 +67,5 @@ class TauClient:
             self.client_sock.close()
             print "Sockets Closed"
         except:
-            print "Socket Close Error"
+            print "Sockets Closed"
 
