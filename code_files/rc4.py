@@ -95,9 +95,6 @@ def decrypt(cipher_mess, key):
     cipher_mess = cipher_mess[10:]
     # maps each byte to an integer value and sends to be xor'd
     plain_text = rc4(map(ord, cipher_mess), map(ord, key + iv))
-    # jonis the list in string format and converts each int to a string representation
+    # joins the list in string format and converts each int to a string representation
     return string.join(map(chr, plain_text), "") + "\nReceived on: " + get_time()
-
-
-
 
