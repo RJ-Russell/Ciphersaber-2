@@ -1,1 +1,9 @@
-[In Progress]
+R.J. Russell
+97 A
+
+Great Git history showing continuous development over long
+period. README should be text or markdown in top-level
+directory, but good. Solid PER, SDD, STP. Good, clean clear
+modular Python code.
+
+Good job.
