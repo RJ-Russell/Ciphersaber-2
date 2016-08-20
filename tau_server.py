@@ -22,7 +22,7 @@ import socket
 import code_files.rc4
 
 HOST = ''
-PORT = 6283
+PORT = ** SET PORT HERE **
 BUFFERSIZE = 1024
 BACKLOG = 5
 

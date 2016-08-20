@@ -20,7 +20,7 @@ References: Daniel Zappala..BYU Python Tutorial.http://ilab.cs.byu.edu/python/
 import socket
 import rc4
 
-PORT = 6283
+PORT = ** SET PORT HERE **
 BUFFERSIZE = 1024
 
 
